@@ -1,12 +1,15 @@
 <?php
 
-class dockerApi {
+class dockerAPI {
 
-    private $c = curl_init();
+    private $c;
     private $host;
+    private $db;
     
     function __construct($host) {
         $this->host = $host
+        $this->db = new DbHandler();
+        $this->c = curl_init();
     }
  
     private function setCurlOpt($method, $data, $post = false) {
@@ -20,8 +23,9 @@ class dockerApi {
         curl_setopt($c, CURLOPT_RETURNTRANSFER,1);
     }
 
-    public function getList() {
-        
+    public function getList($username) {
+        $containerInfo = $this->db->getOneRecord("select cid,name,address,types,created from users_container where username='$username'");
+        return $containerInfo; 
     }
     
     public function createContainer($data) {
