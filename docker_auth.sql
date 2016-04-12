@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS `users_container` (
   `cid` varchar(64) NOT NULL,
   `username` varchar(50) NOT NULL,
   `name` varchar(50) NOT NULL,
-  `address` varchar(5) NOT NULL,
+  `address` varchar(30) NOT NULL,
   `types` varchar(10) NOT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`cid`)

@@ -29,6 +29,11 @@ class dockerAPI {
 
         return $containerInfo; 
     }
+
+    public function checkStatus($id) {
+
+    }
+
     
     public function createContainer($data) {
 

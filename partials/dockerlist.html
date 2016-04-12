@@ -1,15 +1,33 @@
+<h4 class="header blue lighter bigger">
+    <i class="icon-coffee green"></i>
+    Container List
+</h4>
+
 <div ng-controller="dockerCtrl">
-    <a class="pull-right" ng-click="list();">Test</a>
     <table class="table">
         <thead>
             <tr>
                 <th>#</th> 
                 <th>Name</th> 
                 <th>Address</th> 
-                <th>Type</th>
+                <th>Types</th>
+                <th>Control</th>
             </tr>
-        </thead>
-        
-    <tbody>
+        </thead>        
+        <tbody>
+            <tr ng-repeat="container in containers">
+                <th scope="row">{{$index+1}}</th>
+                <td>{{container.name}}</td>  
+                <td>{{container.address}}</td>  
+                <td>{{container.types}}</td>
+                <td></td>
+                <td>
+                    <button type="button" class="btn btn-success">Start</button>
+                    <button type="button" class="btn btn-warning">Stop</button>
+                    <button type="button" class="btn btn-danger">Remove</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
 </div>

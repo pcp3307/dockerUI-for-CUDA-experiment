@@ -25,12 +25,12 @@ class DbHandler {
     public function getMultiRecord($query) {
         $result = array();
         $r = $this->conn->query($query) or die($this->conn->error.__LINE__);
-        
+        $count = 0;
         while($row = $r->fetch_assoc()) {
-            echo print_r($row);
+            $result[$count] = $row;
+            $count++;
         }
-        
-        return $result = $r->fetch_assoc();    
+        return $result;    
     }
 
     /**
