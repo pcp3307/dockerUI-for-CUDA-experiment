@@ -19,10 +19,10 @@
                         <br/>
                         <form name="signupForm" class="form-horizontal" role="form">
                             <div class="form-group">
-                                <label class="col-sm-5 control-label no-padding-right" for="name">Name</label>
+                                <label class="col-sm-5 control-label no-padding-right" for="name">Username</label>
                                 <div class="col-sm-7">
                                     <span class="block input-icon input-icon-right">
-                                <input type="text" class="form-control" placeholder="Name" ng-model="signup.name" />
+                                <input type="text" class="form-control" placeholder="Username" ng-model="signup.name" required />
                             </span>
                                 </div>
                             </div>
@@ -52,7 +52,7 @@
                                 <label class="col-sm-5 control-label no-padding-right" for="email">Email</label>
                                 <div class="col-sm-7">
                                     <span class="block input-icon input-icon-right">
-                                        <input type="text" class="form-control" placeholder="Email" name="email" ng-model="signup.email" focus/>
+                                        <input type="text" class="form-control" placeholder="Email" name="email" ng-model="signup.email" required/>
                                         <span ng-show="signupForm.email.$error.email" class="help-inline">Email is not valid</span> 
                                     </span>
                                 </div>

@@ -3,9 +3,6 @@ app.controller('dockerCtrl', function ($scope, $rootScope, $routeParams, $locati
         Data.post('getList',{
             username: $rootScope.name
         }).then(function (results) {
-            //if(results.status == "success") {
-                
-            //}
             Data.toast(results);
         });
     }

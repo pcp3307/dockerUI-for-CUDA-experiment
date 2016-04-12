@@ -10,6 +10,7 @@ class DbHandler {
         $db = new dbConnect();
         $this->conn = $db->connect();
     }
+
     /**
      * Fetching single record
      */
@@ -17,6 +18,21 @@ class DbHandler {
         $r = $this->conn->query($query.' LIMIT 1') or die($this->conn->error.__LINE__);
         return $result = $r->fetch_assoc();    
     }
+
+    /**
+     * Fetching multi record
+     */
+    public function getMultiRecord($query) {
+        $result = array();
+        $r = $this->conn->query($query) or die($this->conn->error.__LINE__);
+        
+        while($row = $r->fetch_assoc()) {
+            echo print_r($row);
+        }
+        
+        return $result = $r->fetch_assoc();    
+    }
+
     /**
      * Creating new record
      */

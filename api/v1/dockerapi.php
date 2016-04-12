@@ -5,9 +5,9 @@ class dockerAPI {
     private $c;
     private $host;
     private $db;
-    
+
     function __construct($host) {
-        $this->host = $host
+        $this->host = $host;
         $this->db = new DbHandler();
         $this->c = curl_init();
     }
@@ -24,7 +24,9 @@ class dockerAPI {
     }
 
     public function getList($username) {
-        $containerInfo = $this->db->getOneRecord("select cid,name,address,types,created from users_container where username='$username'");
+        $containerInfo = $this->db->getMultiRecord("select cid,name,address,types,created from users_container where username='$username'");
+        
+
         return $containerInfo; 
     }
     

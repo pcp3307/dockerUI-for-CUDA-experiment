@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS `users_auth` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=187 ;
 
 CREATE TABLE IF NOT EXISTS `users_container` (
-  `cid` int(64) NOT NULL,
+  `cid` varchar(64) NOT NULL,
   `username` varchar(50) NOT NULL,
   `name` varchar(50) NOT NULL,
   `address` varchar(5) NOT NULL,
