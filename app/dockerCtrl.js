@@ -9,7 +9,9 @@ app.controller('dockerCtrl', function ($scope, $rootScope, $routeParams, $locati
             })
         });
     }
-    $scope.list();
+    if($rootScope.name != null) {
+        $scope.list();
+    }
 
     $scope.check = function () {
         Data.post('checkStatus',{

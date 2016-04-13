@@ -5,12 +5,13 @@
 
 <div ng-controller="dockerCtrl">
     <table class="table">
-        <thead>
+        <thead class="thead-inverse">
             <tr>
                 <th>#</th> 
                 <th>Name</th> 
                 <th>Address</th> 
                 <th>Types</th>
+                <th>Status</th>
                 <th>Control</th>
             </tr>
         </thead>        
@@ -20,7 +21,10 @@
                 <td>{{container.name}}</td>  
                 <td>{{container.address}}</td>  
                 <td>{{container.types}}</td>
-                <td></td>
+                <td>
+                    <span class="label label-success" ng-if="container.status == 'true'">Running</span>
+                    <span class="label label-warning" ng-if="container.status == 'false'">Stopped</span>
+                </td>
                 <td>
                     <button type="button" class="btn btn-success">Start</button>
                     <button type="button" class="btn btn-warning">Stop</button>
