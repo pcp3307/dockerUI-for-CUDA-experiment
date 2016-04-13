@@ -43,6 +43,10 @@ app.config(['$routeProvider',
                     $rootScope.name = results.name;
                     $rootScope.email = results.email;
                 } else {
+                    delete $rootScope.uid;
+                    delete $rootScope.name;
+                    delete $rootScope.email;
+                    
                     var nextUrl = next.$$route.originalPath;
                     if (nextUrl == '/signup' || nextUrl == '/login') {
 

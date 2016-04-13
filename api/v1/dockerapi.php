@@ -9,10 +9,12 @@ class dockerAPI {
     function __construct($host) {
         $this->host = $host;
         $this->db = new DbHandler();
-        $this->c = curl_init();
     }
  
     private function setCurlOpt($method, $data, $post = false) {
+
+        $this->c = curl_init();
+
         if($post) {
             $url = $this->host . $method;
             curl_setopt($this->c, CURLOPT_POST, true);
@@ -21,7 +23,6 @@ class dockerAPI {
         else {
             $url = $this->host . $method . $data;
         }
-
         curl_setopt($this->c, CURLOPT_URL, $url);
         curl_setopt($this->c, CURLOPT_RETURNTRANSFER,1);
         $response = curl_exec($this->c);
@@ -33,7 +34,7 @@ class dockerAPI {
     public function getList($username) {
         $containerInfo = $this->db->getMultiRecord("select cid,name,address,types,created from users_container where username='$username'");
         
-        foreach($containerInfo as $key=>$info){
+        foreach($containerInfo as $key=>$info) {
             $id = $info["cid"];
             $status = $this->checkStatus($id);
             $containerInfo[$key]["status"] = $status;
