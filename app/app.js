@@ -1,4 +1,4 @@
-app = angular.module('myApp', ['ngRoute', 'ngAnimate', 'toaster']);
+app = angular.module('myApp', ['ngRoute', 'ngAnimate', 'toaster', 'ngMaterial']);
 
 app.config(['$routeProvider',
   function ($routeProvider) {
@@ -36,20 +36,26 @@ app.config(['$routeProvider',
     .run(function ($rootScope, $location, Data) {
         $rootScope.$on("$routeChangeStart", function (event, next, current) {
             $rootScope.authenticated = false;
+            $rootScope.uid = "";
+            $rootScope.name = "";
+            $rootScope.email = "";
+                 
             Data.get('session').then(function (results) {
                 if (results.uid) {
                     $rootScope.authenticated = true;
                     $rootScope.uid = results.uid;
                     $rootScope.name = results.name;
                     $rootScope.email = results.email;
+                    if($rootScope.name == 'admin') {
+                        $rootScope.isAdmin = true;
+                    }
+                    else {
+                        $rootScope.isAdmin = false;
+                    }
                 } else {
-                    delete $rootScope.uid;
-                    delete $rootScope.name;
-                    delete $rootScope.email;
-                    
                     var nextUrl = next.$$route.originalPath;
                     if (nextUrl == '/signup' || nextUrl == '/login') {
-
+                        $location.path(nextUrl);
                     } else {
                         $location.path("/login");
                     }

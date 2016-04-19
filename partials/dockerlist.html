@@ -1,9 +1,75 @@
-<h4 class="header blue lighter bigger">
+<div ng-controller="dockerCtrl">
+    <h3 class="header blue lighter bigger">
     <i class="icon-coffee green"></i>
     Container List
-</h4>
+    
+    <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#createModal">
+      Launch Container
+    </button>
 
-<div ng-controller="dockerCtrl">
+    </h3>
+
+
+    <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel">Launch a container</h4>
+          </div>
+          <div class="modal-body">
+            <form name="createForm" class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right" for="name"> Name </label>
+                        <div class="col-sm-7">
+                           <span class="block input-icon input-icon-right">
+                                <input type="text" class="form-control" placeholder="ContainerName" name="name" ng-model="createData.name" required focus/>
+                                <i class="ace-icon fa fa-user"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right" for="image"> Image </label>
+                        <div class="col-sm-7">
+                           <span class="block input-icon input-icon-right">
+                                <select class="form-control" name="image" ng-model="createData.image">
+                                    <option ng-repeat="image in imagelist" value="image.value">{{image.displayName}}</option>
+                                </select>
+                                <i class="ace-icon fa fa-lock"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right" for="volume"> Volume </label>
+                        <div class="col-sm-7">
+                           <span class="block input-icon input-icon-right">
+                                 <select class="form-control" name="Volume" ng-model="createData.volume">
+                                    <option value="normal">normal</option>
+                                    <option value="mpi">mpi</option>
+                                </select>
+
+                                <i class="ace-icon fa fa-lock"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="space"></div>
+                     <div class="clearfix">
+                         <div class="row">
+                         <label class="col-sm-3 control-label no-padding-right"> </label>
+                     </div>
+                    </div>
+                    <div class="space-4"></div>
+                </form>
+ 
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary">Launch</button>
+          </div>
+        </div>
+      </div>
+    </div> 
+
     <table class="table">
         <thead class="thead-inverse">
             <tr>
@@ -26,9 +92,9 @@
                     <span class="label label-warning" ng-if="container.status == 'false'">Stopped</span>
                 </td>
                 <td>
-                    <button type="button" class="btn btn-success">Start</button>
-                    <button type="button" class="btn btn-warning">Stop</button>
-                    <button type="button" class="btn btn-danger">Remove</button>
+                    <button type="button" class="btn btn-sm btn-success" ng-click="start(container)">Start</button>
+                    <button type="button" class="btn btn-sm btn-warning" ng-click="stop(container)">Stop</button>
+                    <button type="button" class="btn btn-sm btn-danger">Remove</button>
                 </td>
             </tr>
         </tbody>

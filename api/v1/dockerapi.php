@@ -11,7 +11,7 @@ class dockerAPI {
         $this->db = new DbHandler();
     }
  
-    private function setCurlOpt($method, $data, $post = false) {
+    private function setCurlOpt($method, $data = null, $post = false, $statusCode = false) {
 
         $this->c = curl_init();
 
@@ -26,6 +26,10 @@ class dockerAPI {
         curl_setopt($this->c, CURLOPT_URL, $url);
         curl_setopt($this->c, CURLOPT_RETURNTRANSFER,1);
         $response = curl_exec($this->c);
+        $info = curl_getinfo($this->c);
+        if($statusCode) {
+            return $info["http_code"];
+        }
         curl_close($this->c);
         
         return json_decode($response);
@@ -62,13 +66,19 @@ class dockerAPI {
 
     
     public function createContainer($data) {
-
+        $method = "/containers/json";
     }
     
-    public function start($id) {
+    public function start($id) { 
+        $method = "/containers/" . $id . "/start";
+        $statusCode = $this->setCurlOpt($method,null,true,true);
+        return $statusCode;
     }
 
     public function stop($id){
+        $method = "/containers/" . $id . "/stop?t=3";
+        $statusCode = $this->setCurlOpt($method,null,true,true);
+        return $statusCode;
     }
 
     public function remove($id, $volume) {
