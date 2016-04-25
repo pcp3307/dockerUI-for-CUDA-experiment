@@ -61,47 +61,54 @@ class DbHandler {
             return NULL;
         }
     }
-public function getSession(){
-    if (!isset($_SESSION)) {
-        session_start();
+
+    public function deleteFromTable($key, $value,$table_name) {
+        $query = "DELETE FROM " . $table_name . " WHERE " . $key . " = '" . $value . "'";
+        $r = $this->conn->query($query) or die($this->conn->error.__LINE__);
+        return $r;
     }
-    $sess = array();
-    if(isset($_SESSION['uid']))
-    {
-        $sess["uid"] = $_SESSION['uid'];
-        $sess["name"] = $_SESSION['name'];
-        $sess["email"] = $_SESSION['email'];
-    }
-    else
-    {
-        $sess["uid"] = '';
-        $sess["name"] = 'Guest';
-        $sess["email"] = '';
-    }
-    return $sess;
-}
-public function destroySession(){
-    if (!isset($_SESSION)) {
-    session_start();
-    }
-    if(isSet($_SESSION['uid']))
-    {
-        unset($_SESSION['uid']);
-        unset($_SESSION['name']);
-        unset($_SESSION['email']);
-        $info='info';
-        if(isSet($_COOKIE[$info]))
-        {
-            setcookie ($info, '', time() - $cookie_time);
+
+    public function getSession() {
+        if (!isset($_SESSION)) {
+            session_start();
         }
-        $msg="Logged Out Successfully...";
+        $sess = array();
+        if(isset($_SESSION['uid']))
+        {
+            $sess["uid"] = $_SESSION['uid'];
+            $sess["name"] = $_SESSION['name'];
+            $sess["email"] = $_SESSION['email'];
+        }
+        else
+        {
+            $sess["uid"] = '';
+            $sess["name"] = 'Guest';
+            $sess["email"] = '';
+        }
+        return $sess;
     }
-    else
-    {
-        $msg = "Not logged in...";
+    public function destroySession() {
+        if (!isset($_SESSION)) {
+        session_start();
+        }
+        if(isSet($_SESSION['uid']))
+        {
+            unset($_SESSION['uid']);
+            unset($_SESSION['name']);
+            unset($_SESSION['email']);
+            $info='info';
+            if(isSet($_COOKIE[$info]))
+            {
+                setcookie ($info, '', time() - $cookie_time);
+            }
+            $msg="Logged Out Successfully...";
+        }
+        else
+        {
+            $msg = "Not logged in...";
+        }
+        return $msg;
     }
-    return $msg;
-}
  
 }
 
