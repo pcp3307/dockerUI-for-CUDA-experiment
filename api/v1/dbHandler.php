@@ -62,11 +62,18 @@ class DbHandler {
         }
     }
 
-    public function deleteFromTable($key, $value,$table_name) {
+    public function deleteFromTable($key, $value, $table_name) {
         $query = "DELETE FROM " . $table_name . " WHERE " . $key . " = '" . $value . "'";
         $r = $this->conn->query($query) or die($this->conn->error.__LINE__);
         return $r;
     }
+
+    public function updateDataFromTable($key, $value, $table_name, $primaryKey, $primaryValue) {
+        $query = "UPDATE " . $table_name . " SET " . $key . " = '" . $value . "'" . " WHERE " . $primaryKey . " = " . $primaryValue . ";";
+        $r = $this->conn->query($query) or die($this->conn->error.__LINE__);
+        return $r;
+    }
+
 
     public function getSession() {
         if (!isset($_SESSION)) {

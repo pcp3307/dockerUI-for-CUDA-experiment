@@ -23,6 +23,16 @@ app.config(['$routeProvider',
                 templateUrl: 'partials/dashboard.html',
                 controller: 'authCtrl'
             })
+            .when('/users', {
+                title: 'Users',
+                templateUrl: 'partials/users.html',
+                controller: 'userCtrl'
+            })
+            .when('/settings', {
+                title: 'Settings',
+                templateUrl: 'partials/settings.html',
+                controller: 'settingCtrl'
+            })
             .when('/', {
                 title: 'Login',
                 templateUrl: 'partials/login.html',
@@ -39,8 +49,9 @@ app.config(['$routeProvider',
             $rootScope.uid = "";
             $rootScope.name = "";
             $rootScope.email = "";
-                 
+
             Data.get('session').then(function (results) {
+                
                 if (results.uid) {
                     $rootScope.authenticated = true;
                     $rootScope.uid = results.uid;
@@ -52,7 +63,8 @@ app.config(['$routeProvider',
                     else {
                         $rootScope.isAdmin = false;
                     }
-                } else {
+                } 
+                else {
                     var nextUrl = next.$$route.originalPath;
                     if (nextUrl == '/signup' || nextUrl == '/login') {
                         $location.path(nextUrl);

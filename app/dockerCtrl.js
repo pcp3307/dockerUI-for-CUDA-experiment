@@ -1,21 +1,21 @@
-app.controller('dockerCtrl', function ($scope, $rootScope, $routeParams, $location, $http, Data) {
+app.controller('dockerCtrl', function ($scope, $rootScope, $routeParams, $location, $http, Data, $mdDialog, $timeout) {
     $scope.containers = [];
     $scope.createData = {
         image: 'normal',
     };
+
+    $scope.getSuccess = false;
+
     $scope.list = function () {
         $scope.containers = [];
         Data.post('getList',{
-            username: $rootScope.name
         }).then(function (results) {
+            console.dir(results)
             angular.forEach(results.data, function(value, key){
                 $scope.containers.push(value);
             })
+            $timeout(function(){$scope.getSuccess = true}, 500); 
         });
-    }
-
-    if($rootScope.name != null) {
-        $scope.list();
     }
         
     $scope.imagelist = [{
@@ -52,7 +52,10 @@ app.controller('dockerCtrl', function ($scope, $rootScope, $routeParams, $locati
         });
     }
 
+    $scope.loading = false;
+
     $scope.create = function(createData) {
+        $scope.loading = true;
         var nameExist = false;
         var errorMsg = {
             status: 'error',
@@ -65,38 +68,50 @@ app.controller('dockerCtrl', function ($scope, $rootScope, $routeParams, $locati
         })
         if(nameExist) {
             Data.toast(errorMsg);
+            $scope.resetModal();
+            $('#createModal').modal('hide');
         }
         else {
             Data.post('create',{
                 data: createData,
                 username: $rootScope.name
             }).then(function (results) {
+                Data.toast(results);
                 if (results.status == "success") {
                     $scope.containers.push(results.data);
                 }
-                Data.toast(results);
+                $scope.resetModal();
+                $('#createModal').modal('hide');
             });
         }
-        $scope.resetModal();
-        $('#createModal').modal('hide');
     }
 
-    $scope.remove = function (container) {
-        Data.post('remove',{
-            cid: container.cid,
-            ip: container.ip
-        }).then(function (results) {
-            if (results.status == "success") {
-                var index = $scope.containers.indexOf(container);
-                $scope.containers.splice(index,1);
-            }
-            Data.toast(results);
+    $scope.remove = function (container, ev) {
+        var confirm = $mdDialog.confirm()
+          .title('Would you like to delete container ' + container.name + ' ?')
+          .targetEvent(ev)
+          .ok('OK')
+          .cancel('Cancel');
+        
+        $mdDialog.show(confirm).then(function() {
+            Data.post('remove',{
+                cid: container.cid,
+                ip: container.ip
+            }).then(function (results) {
+                if (results.status == "success") {
+                    var index = $scope.containers.indexOf(container);
+                    $scope.containers.splice(index,1);
+                }
+                Data.toast(results);
+            });    
         });
+        
     }
 
     $scope.resetModal = function() {
         $scope.createData = {
             image: 'normal'
         }
+        $scope.loading = false;
     }
 });

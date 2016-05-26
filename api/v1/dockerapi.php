@@ -44,6 +44,13 @@ class dockerAPI {
         
         return $containerInfo; 
     }
+    
+    public static function getVolumeList($username) {
+        $db = new DbHandler();
+        $volumeInfo = $db->getMultiRecord("select cid,name,created from users_volume where username='$username'");
+        
+        return $volumeInfo; 
+    }
 
     public static function checkStatus($id, $ip) {
         $method = "/containers/json";
@@ -89,8 +96,11 @@ class dockerAPI {
     public function create($data=null) {
         $method = "/containers/create";
         $post_data = array();
-        $post_data["Image"] = "ubuntu_ssh";
-        $post_data["HostConfig"] = array("PublishAllPorts" => true);
+        $post_data["Image"] = "ubuntu_ssh:v2";
+        $post_data["HostConfig"] = array(
+            "PublishAllPorts" => true,
+            "Privileged" => true,
+        );
         $post_data = json_encode($post_data);
 
         $response = $this->Curl($method, $post_data, true, false);

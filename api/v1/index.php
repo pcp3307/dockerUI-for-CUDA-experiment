@@ -13,6 +13,9 @@ $user_id = NULL;
 
 require_once 'authentication.php';
 require_once 'container.php';
+require_once 'users.php';
+
+
 
 /**
  * Verifying required params posted or not
@@ -49,6 +52,25 @@ function echoResponse($status_code, $response) {
     $app->contentType('application/json');
 
     echo json_encode($response);
+}
+
+function checkSession(){
+    $db = new DbHandler();
+    $session = $db->getSession();
+    if($session['uid'] == ''){
+        $response = array(
+            'message' => 'Not Found'
+        );
+        echoResponse(404, $response);
+        return false;
+    }
+    return true;
+}
+
+function getConfig() {
+    require_once 'config.php';
+
+    return $CONFIG;
 }
 
 $app->run();
