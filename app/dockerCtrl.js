@@ -10,7 +10,6 @@ app.controller('dockerCtrl', function ($scope, $rootScope, $routeParams, $locati
         $scope.containers = [];
         Data.post('getList',{
         }).then(function (results) {
-            console.dir(results)
             angular.forEach(results.data, function(value, key){
                 $scope.containers.push(value);
             })

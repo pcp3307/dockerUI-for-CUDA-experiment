@@ -13,7 +13,6 @@ $user_id = NULL;
 
 require_once 'authentication.php';
 require_once 'container.php';
-require_once 'users.php';
 
 
 
@@ -42,22 +41,45 @@ function verifyRequiredParams($required_fields,$request_params) {
     }
 }
 
+function getOwncloudSession($username, $password) {
+    $c = curl_init();
 
-function echoResponse($status_code, $response) {
+    $host = "http://140.129.25.141/owncloud/index.php";
+    $api = "/apps/user_permission/api/getSession";
+    $url = $host . $api;
+
+
+    $post_data["username"] = $username;
+    $post_data["password"] = $password;
+    $verifyString = $username . ":" . $password;
+
+    curl_setopt($c, CURLOPT_URL, $url);
+    curl_setopt($c, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+    curl_setopt($c, CURLOPT_POST, 1);
+    curl_setopt($c, CURLOPT_USERPWD, $verifyString);
+    curl_setopt($c, CURLOPT_POSTFIELDS, $post_data);
+
+    $result = curl_exec($c);
+    curl_close($c);
+    return $result; 
+}
+
+function echoResponse($status_code, $response = null) {
     $app = \Slim\Slim::getInstance();
     // Http response code
     $app->status($status_code);
 
     // setting response content type to json
     $app->contentType('application/json');
-
-    echo json_encode($response);
+    if($response != null) {
+        echo json_encode($response);
+    }
 }
 
 function checkSession(){
     $db = new DbHandler();
     $session = $db->getSession();
-    if($session['uid'] == ''){
+    if($session['name'] == ''){
         $response = array(
             'message' => 'Not Found'
         );

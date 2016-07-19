@@ -13,25 +13,10 @@ app.config(['$routeProvider',
                 templateUrl: 'partials/login.html',
                 controller: 'logoutCtrl'
             })
-            .when('/signup', {
-                title: 'Signup',
-                templateUrl: 'partials/signup.html',
-                controller: 'authCtrl'
-            })
             .when('/dashboard', {
                 title: 'Dashboard',
                 templateUrl: 'partials/dashboard.html',
                 controller: 'authCtrl'
-            })
-            .when('/users', {
-                title: 'Users',
-                templateUrl: 'partials/users.html',
-                controller: 'userCtrl'
-            })
-            .when('/settings', {
-                title: 'Settings',
-                templateUrl: 'partials/settings.html',
-                controller: 'settingCtrl'
             })
             .when('/', {
                 title: 'Login',
@@ -46,17 +31,13 @@ app.config(['$routeProvider',
     .run(function ($rootScope, $location, Data) {
         $rootScope.$on("$routeChangeStart", function (event, next, current) {
             $rootScope.authenticated = false;
-            $rootScope.uid = "";
             $rootScope.name = "";
-            $rootScope.email = "";
 
             Data.get('session').then(function (results) {
                 
-                if (results.uid) {
+                if (results.name != 'Guest') {
                     $rootScope.authenticated = true;
-                    $rootScope.uid = results.uid;
                     $rootScope.name = results.name;
-                    $rootScope.email = results.email;
                     if($rootScope.name == 'admin') {
                         $rootScope.isAdmin = true;
                     }

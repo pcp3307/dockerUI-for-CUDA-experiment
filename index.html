@@ -20,8 +20,6 @@
           <script src="app/directives.js"></script>
           <script src="app/authCtrl.js"></script>
           <script src="app/dockerCtrl.js"></script>
-          <script src="app/userCtrl.js"></script>
-          <script src="app/settingCtrl.js"></script>
 
           <!-- Bootstrap -->
             <!-- Latest compiled and minified CSS -->
@@ -75,17 +73,6 @@
                        <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li>
-                            <a href="#settings">
-                                Settings
-                            </a>
-                        </li>
-                        <li ng-if="isAdmin">
-                            <a href="#users">
-                                Users
-                            </a>
-                        </li>
-                        <li role="separator" class="divider"></li>
                         <li>
                             <a id="logout" ng-click="logout();">
                                 Logout
