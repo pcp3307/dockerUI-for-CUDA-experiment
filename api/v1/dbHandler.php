@@ -68,8 +68,7 @@ class DbHandler {
         return $r;
     }
 
-    public function updateDataFromTable($key, $value, $table_name, $primaryKey, $primaryValue) {
-        $query = "UPDATE " . $table_name . " SET " . $key . " = '" . $value . "'" . " WHERE " . $primaryKey . " = " . $primaryValue . ";";
+    public function updateDataFromTable($query) {
         $r = $this->conn->query($query) or die($this->conn->error.__LINE__);
         return $r;
     }

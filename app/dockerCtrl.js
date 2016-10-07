@@ -7,7 +7,6 @@ app.controller('dockerCtrl', function ($scope, $rootScope, $routeParams, $locati
     $scope.getSuccess = false;
 
     $scope.list = function () {
-        $scope.containers = [];
         Data.post('getList',{
         }).then(function (results) {
             angular.forEach(results.data, function(value, key){

@@ -13,7 +13,7 @@ $user_id = NULL;
 
 require_once 'authentication.php';
 require_once 'container.php';
-
+require_once 'resource.php';
 
 
 /**
@@ -87,12 +87,6 @@ function checkSession(){
         return false;
     }
     return true;
-}
-
-function getConfig() {
-    require_once 'config.php';
-
-    return $CONFIG;
 }
 
 $app->run();

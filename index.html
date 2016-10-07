@@ -19,6 +19,7 @@
           <script src="app/data.js"></script>
           <script src="app/directives.js"></script>
           <script src="app/authCtrl.js"></script>
+          <script src="app/settingsCtrl.js"></script>
           <script src="app/dockerCtrl.js"></script>
 
           <!-- Bootstrap -->
@@ -74,7 +75,15 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li>
+                            <a href="#settings" ng-if="isAdmin">
+                                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 
+                                Settings
+                            </a>
+                        </li>
+
+                        <li>
                             <a id="logout" ng-click="logout();">
+                                <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> 
                                 Logout
                             </a>
                         </li>

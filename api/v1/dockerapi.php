@@ -93,10 +93,18 @@ class dockerAPI {
         return $Info;
     }
     
-    public function create($data=null) {
-        $method = "/containers/create";
+    public function create($username, $containerName, $types) {
+        $containerName = $username . "_" . $containerName;
+        $method = "/containers/create?name=" . $containerName;
         $post_data = array();
-        $post_data["Image"] = "ubuntu_ssh:v2";
+        $post_data["Hostname"] = $containerName;
+        $post_data["Domainname"] = $containerName;
+        if($types == "mpi") {
+            $post_data["Image"] = "pcp3307/ubuntu_ssh:MPI";
+        }
+        else {
+            $post_data["Image"] = "pcp3307/ubuntu_ssh:cuda_v3";
+        }
         $post_data["HostConfig"] = array(
             "PublishAllPorts" => true,
             "Privileged" => true,

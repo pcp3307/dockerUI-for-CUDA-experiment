@@ -90,14 +90,19 @@ $app->post('/create', function() use ($app) {
         $username = $r->username;
 
         $response = array();
-        $config = getConfig();
-        $hosts = $config['dockerServerIP'];
-        $rand_key = array_rand($hosts, 1);
-        $ip = $hosts[$rand_key]; 
+        $config = $db->getMultiRecord("select ip,quantity from docker_resource where 1");
+        for ($i = 0, $j = 1; $j < count($config); $i++, $j++) {
+            if($config[$i]['quantity'] <= $config[$j]['quantity']) {
+                $ip = $config[$i]['ip'];
+            }
+            else {
+                $ip = $config[$j]['ip'];
+            }
+        }
         $host = 'http://' . $ip . ':4243';
 
         $dockerAPI = new dockerAPI($host);
-        $containerInfo = $dockerAPI->create();
+        $containerInfo = $dockerAPI->create($username, $name, $types);
         $id = $containerInfo->Id;
         $statusCode = $containerInfo->http_code;
         $dockerAPI->start($id);
@@ -118,6 +123,7 @@ $app->post('/create', function() use ($app) {
             $tabble_name = "users_container";
             $column_names = array('cid', 'username', 'name', 'ip', 'types');
             $result = $db->insertIntoTable($data, $column_names, $tabble_name);
+            $db->updateDataFromTable("UPDATE docker_resource SET quantity = quantity+1 WHERE ip = '$ip'");
             
             $response['status'] = "success";
             $response['message'] = "Container create successfully";
@@ -146,6 +152,7 @@ $app->post('/remove', function() use ($app) {
         $db->deleteFromTable('cid', $id, 'users_container');
 
         if($statusCode == 204) {
+            $db->updateDataFromTable("UPDATE docker_resource SET quantity = quantity-1 WHERE ip = '$r->ip'");
             $response['status'] = "success";
             $response['message'] = "Container remove successfully";
         }

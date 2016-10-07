@@ -18,6 +18,11 @@ app.config(['$routeProvider',
                 templateUrl: 'partials/dashboard.html',
                 controller: 'authCtrl'
             })
+            .when('/settings', {
+                title: 'Settings',
+                templateUrl: 'partials/settings.html',
+                controller: 'settingsCtrl'
+            })
             .when('/', {
                 title: 'Login',
                 templateUrl: 'partials/login.html',
