@@ -51,12 +51,7 @@ app.config(['$routeProvider',
                     }
                 } 
                 else {
-                    var nextUrl = next.$$route.originalPath;
-                    if (nextUrl == '/signup' || nextUrl == '/login') {
-                        $location.path(nextUrl);
-                    } else {
-                        $location.path("/login");
-                    }
+                    $location.path("/login");
                 }
             });
         });

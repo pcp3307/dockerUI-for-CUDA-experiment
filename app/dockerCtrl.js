@@ -8,6 +8,7 @@ app.controller('dockerCtrl', function ($scope, $rootScope, $routeParams, $locati
 
     $scope.list = function () {
         Data.post('getList',{
+            username: $rootScope.name
         }).then(function (results) {
             angular.forEach(results.data, function(value, key){
                 $scope.containers.push(value);
@@ -29,11 +30,14 @@ app.controller('dockerCtrl', function ($scope, $rootScope, $routeParams, $locati
             cid: container.cid,
             ip: container.ip
         }).then(function (results) {
+            Data.toast(results);
             if (results.status == "success") {
                 container.status = results.containerStatus;
                 container.port = results.port; 
             }
-            Data.toast(results);
+            else {
+                $location.path('login');
+            }
         });
     }
 
@@ -42,11 +46,14 @@ app.controller('dockerCtrl', function ($scope, $rootScope, $routeParams, $locati
             cid: container.cid,
             ip: container.ip
         }).then(function (results) {
+            Data.toast(results);
             if (results.status == "success") { 
                 container.status = results.containerStatus;
                 container.port = results.port;
             }
-            Data.toast(results);
+            else {
+                $location.path('login');
+            }
         });
     }
 
@@ -74,12 +81,15 @@ app.controller('dockerCtrl', function ($scope, $rootScope, $routeParams, $locati
                 data: createData,
                 username: $rootScope.name
             }).then(function (results) {
+                $scope.resetModal();
+                $('#createModal').modal('hide');
                 Data.toast(results);
                 if (results.status == "success") {
                     $scope.containers.push(results.data);
                 }
-                $scope.resetModal();
-                $('#createModal').modal('hide');
+                else {
+                    $timeout(function(){$location.path('login');}, 250); 
+                }
             });
         }
     }
@@ -96,11 +106,15 @@ app.controller('dockerCtrl', function ($scope, $rootScope, $routeParams, $locati
                 cid: container.cid,
                 ip: container.ip
             }).then(function (results) {
+                Data.toast(results);
                 if (results.status == "success") {
                     var index = $scope.containers.indexOf(container);
                     $scope.containers.splice(index,1);
                 }
-                Data.toast(results);
+                else {
+                    $location.path('login');
+                }
+
             });    
         });
         

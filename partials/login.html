@@ -46,9 +46,9 @@
                                                         <div class="row">
                          <label class="col-sm-3 control-label no-padding-right"> </label>
                         <div class="col-sm-7">
-                            <button type="submit" class="width-35 pull-right btn btn-sm btn-primary" ng-click="doLogin(login)" data-ng-disabled="loginForm.$invalid">
+                            <button type="submit" class="width-35 pull-right btn btn-sm btn-primary" ng-click="doLogin(login)" data-ng-disabled="loginForm.$invalid || isLogin"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate" ng-show="isLogin"></span>
                                 <i class="ace-icon fa fa-key"></i>
-                                Login
+                                Log in
                             </button>
                                                             </div>
                         </div>
