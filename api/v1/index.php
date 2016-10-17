@@ -41,29 +41,6 @@ function verifyRequiredParams($required_fields,$request_params) {
     }
 }
 
-function getOwncloudSession($username, $password) {
-    $c = curl_init();
-
-    $host = "http://140.129.25.141/owncloud/index.php";
-    $api = "/apps/user_permission/api/getSession";
-    $url = $host . $api;
-
-
-    $post_data["username"] = $username;
-    $post_data["password"] = $password;
-    $verifyString = $username . ":" . $password;
-
-    curl_setopt($c, CURLOPT_URL, $url);
-    curl_setopt($c, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-    curl_setopt($c, CURLOPT_POST, 1);
-    curl_setopt($c, CURLOPT_USERPWD, $verifyString);
-    curl_setopt($c, CURLOPT_POSTFIELDS, $post_data);
-
-    $result = curl_exec($c);
-    curl_close($c);
-    return $result; 
-}
-
 function echoResponse($status_code, $response = null) {
     $app = \Slim\Slim::getInstance();
     // Http response code
@@ -76,18 +53,18 @@ function echoResponse($status_code, $response = null) {
     }
 }
 
-function checkSession(){
+function checkSession() {
     $db = new DbHandler();
     $session = $db->getSession();
-    if($session['name'] == ''){
-        $response = array(
-            'message' => 'Not Found'
-        );
-        echoResponse(404, $response);
+    if($session['name'] == 'Guest'){
+        $response = array();
+        $response['status'] = 'error';
+        $response['message'] = 'Your account has been deleted. Please contact your system administrator.';
+
+        echoResponse(200, $response);
         return false;
     }
     return true;
 }
-
 $app->run();
 ?>

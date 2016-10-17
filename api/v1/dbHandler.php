@@ -73,21 +73,54 @@ class DbHandler {
         return $r;
     }
 
+    public function getOwncloudSession($username, $password) {
+        $c = curl_init();
+
+        $host = "http://140.129.25.141/owncloud/index.php";
+        $api = "/apps/user_permission/api/getSession";
+        $url = $host . $api;
+
+
+        $post_data["username"] = $username;
+        $post_data["password"] = $password;
+        $verifyString = $username . ":" . $password;
+
+        curl_setopt($c, CURLOPT_URL, $url);
+        curl_setopt($c, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($c, CURLOPT_POST, 1);
+        curl_setopt($c, CURLOPT_USERPWD, $verifyString);
+        curl_setopt($c, CURLOPT_POSTFIELDS, $post_data);
+        curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);
+
+        $result = curl_exec($c);
+        curl_close($c);
+        return $result; 
+    }
+
 
     public function getSession() {
         if (!isset($_SESSION)) {
             session_start();
         }
         $sess = array();
+
         if(isset($_SESSION['name']))
         {
-            $sess["name"] = $_SESSION['name'];
+            $userExists = $this->getOwncloudSession($_SESSION['name'], $_SESSION['passwd']);
+            if($userExists === 'true') {
+                $sess["name"] = $_SESSION['name'];
+            }
+            else {
+               $sess["name"] = "Guest";
+            }
         }
         else {
             $sess["name"] = "Guest"; 
         }
         return $sess;
     }
+
+
     public function destroySession() {
         if (!isset($_SESSION)) {
         session_start();

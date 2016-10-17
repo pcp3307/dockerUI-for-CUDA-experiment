@@ -3,7 +3,7 @@ $app->get('/session', function() {
     $db = new DbHandler();
     $session = $db->getSession();
     $response["name"] = $session['name'];
-    echoResponse(200, $session);
+    echoResponse(200, $response);
 });
 
 $app->post('/login', function() use ($app) {
@@ -13,15 +13,26 @@ $app->post('/login', function() use ($app) {
     $password = $r->user->password;
     $username = $r->user->username;
     
-    $response = getOwncloudSession($username, $password);
-    if($response) {
+    $db = new DbHandler();
+    $session = $db->getOwncloudSession($username, $password);
+
+    if($session === 'true') {
         if (!isset($_SESSION)) {
             session_start();
         }
         $_SESSION['name'] = $username;
-    } 
+        $_SESSION['passwd']= $password;
 
-    echoResponse(200);
+        $response['status'] = 'success';
+        $response['message'] = 'Logged in successfully.';
+        $response['name'] = $username;
+    }
+    else {
+        $response['status'] = 'error';
+        $response['message'] = 'Log in failed. Incorrect credentials';
+    }
+
+    echoResponse(200, $response);
 });
 $app->get('/logout', function() {
     $db = new DbHandler();
