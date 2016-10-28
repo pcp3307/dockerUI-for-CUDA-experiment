@@ -5,8 +5,7 @@ $app->post('/getList', function() use ($app) {
     if(checkSession()) {
         $r = json_decode($app->request->getBody());
         $response = array();
-        $username = $r->username;
-        $containerInfo = dockerAPI::getList($username);
+        $containerInfo = dockerAPI::getList();
 
         foreach($containerInfo as $key => $info) {
           $id = $info["cid"];

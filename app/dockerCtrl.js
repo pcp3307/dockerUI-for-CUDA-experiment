@@ -8,7 +8,6 @@ app.controller('dockerCtrl', function ($scope, $rootScope, $routeParams, $locati
 
     $scope.list = function () {
         Data.post('getList',{
-            username: $rootScope.name
         }).then(function (results) {
             angular.forEach(results.data, function(value, key){
                 $scope.containers.push(value);
@@ -81,6 +80,7 @@ app.controller('dockerCtrl', function ($scope, $rootScope, $routeParams, $locati
                 data: createData,
                 username: $rootScope.name
             }).then(function (results) {
+                $scope.loading = false;
                 $scope.resetModal();
                 $('#createModal').modal('hide');
                 Data.toast(results);
@@ -124,6 +124,5 @@ app.controller('dockerCtrl', function ($scope, $rootScope, $routeParams, $locati
         $scope.createData = {
             image: 'normal'
         }
-        $scope.loading = false;
     }
 });

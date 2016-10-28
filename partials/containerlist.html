@@ -3,8 +3,10 @@
     <i class="icon-coffee green"></i>
     Container List
     
-    <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#createModal">
-        Launch Container
+    <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#createModal" ng-disabled="loading">
+      <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate" ng-show="loading"></span>
+
+        Create
     </button>
 
     </h3>
@@ -15,7 +17,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-            <h4 class="modal-title" id="myModalLabel">Launch a container</h4>
+            <h4 class="modal-title" id="myModalLabel">Create a container</h4>
           </div>
           <div class="modal-body">
             <form name="createForm" class="form-horizontal" role="form">
@@ -51,8 +53,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="resetModal()">Cancel</button>
-            <button type="button" class="btn btn-primary" ng-click="create(createData)" ng-disabled="createForm.$invalid" data-dismiss="modal"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate" ng-show="loading"></span>
-                Launch
+            <button type="button" class="btn btn-primary" ng-click="create(createData)" ng-disabled="createForm.$invalid" data-dismiss="modal">                Create
             </button>
           </div>
         </div>

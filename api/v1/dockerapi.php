@@ -38,8 +38,9 @@ class dockerAPI {
         return $response;
     }
 
-    public static function getList($username) {
+    public static function getList() {
         $db = new DbHandler();
+        $username = $db->getSession()['name'];
         $containerInfo = $db->getMultiRecord("select cid,name,ip,types,created from users_container where username='$username'");
         
         return $containerInfo; 
