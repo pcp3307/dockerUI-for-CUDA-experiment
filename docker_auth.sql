@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTS dockertest;
+CREATE DATABASE IF NOT EXISTS docker;
 
-USE dockertest;
+USE docker;
 
 --
 -- Table structure for table `customers_auth`
