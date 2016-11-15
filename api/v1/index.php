@@ -59,7 +59,7 @@ function checkSession() {
     if($session['name'] == 'Guest'){
         $response = array();
         $response['status'] = 'error';
-        $response['message'] = 'Your account has been deleted. Please contact your system administrator.';
+        $response['message'] = 'Your account has been logged out. Please log in again.';
 
         echoResponse(200, $response);
         return false;
