@@ -88,6 +88,7 @@ $app->post('/create', function() use ($app) {
 
         $response = array();
         $config = $db->getMultiRecord("select ip,quantity from docker_resource where 1");
+        if(count($config) == 1) $ip = $config[0]['ip'];
         for ($i = 0, $j = 1; $j < count($config); $i++, $j++) {
           if($config[$i]['quantity'] <= $config[$j]['quantity']) {
               $ip = $config[$i]['ip'];
@@ -96,6 +97,7 @@ $app->post('/create', function() use ($app) {
               $ip = $config[$j]['ip'];
           }
         }
+        
         $host = 'http://' . $ip . ':4243';
 
         $dockerAPI = new dockerAPI($host);
