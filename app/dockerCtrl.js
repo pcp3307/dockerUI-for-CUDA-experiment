@@ -100,8 +100,9 @@ app.controller('dockerCtrl', function ($scope, $rootScope, $routeParams, $locati
           .targetEvent(ev)
           .ok('OK')
           .cancel('Cancel');
-        
+        $scope.tempEvent = ev;
         $mdDialog.show(confirm).then(function() {
+            $scope.tempEvent.target.disabled = true;
             Data.post('remove',{
                 cid: container.cid,
                 ip: container.ip
