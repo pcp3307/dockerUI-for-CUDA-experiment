@@ -74,7 +74,7 @@
             </tr>
         </thead>        
         <tbody>
-            <tr ng-repeat="container in containers">
+            <tr ng-repeat="container in containers | orderBy: 'name*1'">
                 <th scope="row">{{$index+1}}</th>
                 <td>{{container.name}}</td>  
                 <td>{{container.ip}}</td>  
